@@ -138,7 +138,7 @@ export default function HomeScreen() {
                   </TouchableOpacity>
                 </View>
 
-                <Text style={styles.productRating}>⭐ {item.rating}</Text>
+                {/* <Text style={styles.productRating}> {item.rating}</Text> */}
               </View>
             ))}
           </View>
