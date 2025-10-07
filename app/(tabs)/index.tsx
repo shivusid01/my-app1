@@ -17,7 +17,8 @@ const categories = [
   { id: "3", name: "Chair", icon: "event-seat", set: "MaterialIcons" },
   { id: "4", name: "Beds", icon: "bed", set: "MaterialIcons" },
   { id: "5", name: "Table", icon: "table-restaurant", set: "MaterialIcons" },
-  { id: "6", name: "Wardrobe", icon: "closet", set: "MaterialIcons" },
+  { id: "6", name: "Wardrobe", icon: "door-sliding", set: "MaterialIcons" }, 
+  
 ];
 
 const products = [
@@ -58,7 +59,6 @@ const products = [
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      {}
       <View style={styles.header}>
         <TouchableOpacity>
           <Ionicons name="menu" size={26} color="#1E2A39" />
@@ -81,7 +81,7 @@ export default function HomeScreen() {
       <View style={styles.bannerContainer}>
         <Image
           source={{
-            uri: "https://plus.unsplash.com/premium_photo-1683121730776-feef85b8299f?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            uri: "https://plus.unsplash.com/premium_photo-1683121730776-feef85b8299f?q=80&w=1074&auto=format&fit=crop",
           }}
           style={styles.bannerBackground}
         />
@@ -98,23 +98,15 @@ export default function HomeScreen() {
       </View>
 
       <ScrollView style={styles.scrollSection} showsVerticalScrollIndicator={false}>
-        {/* Popular Categories */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Popular Categories</Text>
           <FlatList
-           data={[...categories, ...categories, ...categories]}
+            data={[...categories, ...categories]}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.categoryCard}>
-                {item.set === "Ionicons" ? (
-                  <Ionicons name={item.icon as any} size={26} color="#1E2A39" />
-                ) : (
-                  <MaterialIcons name={item.icon as any} size={26} color="#1E2A39" />
-                )}
-                <Text style={styles.categoryText}>{item.name}</Text>
-              </TouchableOpacity>
+             <TouchableOpacity style={styles.categoryCard}> {item.set === "Ionicons" ? ( <Ionicons name={item.icon as any} size={26} color="#1E2A39" /> ) : ( <MaterialIcons name={item.icon as any} size={26} color="#1E2A39" /> )} <Text style={styles.categoryText}>{item.name}</Text> </TouchableOpacity>
             )}
           />
         </View>
@@ -129,7 +121,14 @@ export default function HomeScreen() {
             {products.map((item) => (
               <View key={item.id} style={styles.productCard}>
                 <Image source={{ uri: item.image }} style={styles.productImage} />
-                <Text style={styles.productName}>{item.name}</Text>
+
+                <View style={styles.nameRow}>
+                  <Text style={styles.productName}>{item.name}</Text>
+                  <View style={styles.ratingRow}>
+                    <Ionicons name="star" size={14} color="#FFD700" />
+                    <Text style={styles.ratingText}>{item.rating}</Text>
+                  </View>
+                </View>
 
                 <View style={styles.priceRow}>
                   <Text style={styles.productPrice}>{item.price}</Text>
@@ -137,8 +136,6 @@ export default function HomeScreen() {
                     <Ionicons name="add-circle" size={24} color="#FF7A00" />
                   </TouchableOpacity>
                 </View>
-
-                {/* <Text style={styles.productRating}> {item.rating}</Text> */}
               </View>
             ))}
           </View>
@@ -197,8 +194,6 @@ const styles = StyleSheet.create({
 
   bannerContainer: {
     height: 200,
-    // borderRadius: ,
-    // marginHorizontal: 20,
     marginTop: 12,
     overflow: "hidden",
   },
@@ -206,7 +201,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     position: "absolute",
-    // borderRadius: 16,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -302,11 +296,27 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
   },
+  nameRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 6,
+  },
   productName: {
     fontSize: 14,
     fontWeight: "500",
     color: "#1E2A39",
-    marginTop: 6,
+    flex: 1,
+    marginRight: 4,
+  },
+  ratingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  ratingText: {
+    fontSize: 12,
+    color: "#777",
+    marginLeft: 3,
   },
   priceRow: {
     flexDirection: "row",
@@ -318,11 +328,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#FF7A00",
     fontWeight: "600",
-  },
-  productRating: {
-    fontSize: 12,
-    color: "#999",
-    marginTop: 4,
   },
 
   bottomNav: {
